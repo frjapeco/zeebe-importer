@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "resource": {"type": "string"},
+          "resourceName": {"type": "string"}
+        },
+        "required": ["resource", "resourceName"]
+      }
+    },
+    "processesMetadata": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": {"type": "integer"},
+          "bpmnProcessId": {"type": "string"},
+          "processDefinitionKey": {"type": "integer"},
+          "checksum": {"type": "string"},
+          "resourceName": {"type": "string"},
+          "duplicate": {"type": "boolean"}
+        },
+        "required": ["version", "bpmnProcessId", "processDefinitionKey", "checksum", "resourceName", "duplicate"]
+      }
+    },
+    "decisionsMetadata": {"type": "array"},
+    "decisionRequirementsMetadata": {"type": "array"}
+  },
+  "required": ["resources", "processesMetadata", "decisionsMetadata", "decisionRequirementsMetadata"]
+}

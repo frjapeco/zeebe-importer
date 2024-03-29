@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "version": {"type": "integer"},
+    "bpmnProcessId": {"type": "string"},
+    "processInstanceKey": {"type": "integer"},
+    "processDefinitionKey": {"type": "integer"},
+    "elementId": {"type": "string"},
+    "flowScopeKey": {"type": "integer"},
+    "bpmnElementType": {"type": "string"},
+    "bpmnEventType": {"type": "string"},
+    "parentProcessInstanceKey": {"type": "integer"},
+    "parentElementInstanceKey": {"type": "integer"}
+  },
+  "required": [
+    "version",
+    "bpmnProcessId",
+    "processInstanceKey",
+    "processDefinitionKey",
+    "elementId",
+    "flowScopeKey",
+    "bpmnElementType",
+    "bpmnEventType",
+    "parentProcessInstanceKey",
+    "parentElementInstanceKey"
+  ]
+}
