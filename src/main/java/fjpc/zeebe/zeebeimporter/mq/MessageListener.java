@@ -4,9 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchema;
-import fjpc.zeebe.zeebeimporter.mq.dto.ProcessInstanceMessage;
 import fjpc.zeebe.zeebeimporter.service.ProcessInstanceService;
 import fjpc.zeebe.zeebeimporter.service.ProcessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ public class MessageListener {
 	private final Map<String, JsonSchema> schemas;
 	private final ProcessService processService;
 	private final ProcessInstanceService processInstanceService;
+	private final Logger log = LoggerFactory.getLogger(MessageListener.class);
 
 	public MessageListener(ObjectMapper mapper, Map<String, JsonSchema> schemas, ProcessService processService, ProcessInstanceService processInstanceService) {
 		this.mapper = mapper;
@@ -30,7 +32,8 @@ public class MessageListener {
 	}
 
 	@RabbitListener(queues = "zeebe")
-	public void read(String json) throws IOException {
+	public void receive(String json) throws IOException {
+		log.info("Receiving message: {}", json);
         switch (getMessageType(json)) {
 			case PROCESS:
 				processService.save(json);
@@ -38,7 +41,9 @@ public class MessageListener {
 			case PROCESS_INSTANCE:
 				processInstanceService.save(json);
 				break;
+			case UNKNOWN:
 			default:
+				log.warn("Unrecognized message: {}", json);
 		}
     }
 

@@ -1,17 +1,13 @@
-    package fjpc.zeebe.zeebeimporter.mq.dto;
+package fjpc.zeebe.zeebeimporter.mq.dto;
 
 public class ProcessInstanceMessage {
 
     private int version;
-    private String bpmnProcessId;
     private long processInstanceKey;
     private long processDefinitionKey;
-    private String elementId;
-    private long flowScopeKey;
-    private String bpmnElementType;
-    private String bpmnEventType;
-    private long parentProcessInstanceKey;
-    private long parentElementInstanceKey;
+    private String bpmnProcessId;
+    private Object variables;
+    private Object[] startInstructions;
 
     public ProcessInstanceMessage() {
     }
@@ -22,14 +18,6 @@ public class ProcessInstanceMessage {
 
     public void setVersion(int version) {
         this.version = version;
-    }
-
-    public String getBpmnProcessId() {
-        return bpmnProcessId;
-    }
-
-    public void setBpmnProcessId(String bpmnProcessId) {
-        this.bpmnProcessId = bpmnProcessId;
     }
 
     public long getProcessInstanceKey() {
@@ -48,52 +36,28 @@ public class ProcessInstanceMessage {
         this.processDefinitionKey = processDefinitionKey;
     }
 
-    public String getElementId() {
-        return elementId;
+    public String getBpmnProcessId() {
+        return bpmnProcessId;
     }
 
-    public void setElementId(String elementId) {
-        this.elementId = elementId;
+    public void setBpmnProcessId(String bpmnProcessId) {
+        this.bpmnProcessId = bpmnProcessId;
     }
 
-    public long getFlowScopeKey() {
-        return flowScopeKey;
+    public Object getVariables() {
+        return variables;
     }
 
-    public void setFlowScopeKey(long flowScopeKey) {
-        this.flowScopeKey = flowScopeKey;
+    public void setVariables(Object variables) {
+        this.variables = variables;
     }
 
-    public String getBpmnElementType() {
-        return bpmnElementType;
+    public Object[] getStartInstructions() {
+        return startInstructions;
     }
 
-    public void setBpmnElementType(String bpmnElementType) {
-        this.bpmnElementType = bpmnElementType;
-    }
-
-    public String getBpmnEventType() {
-        return bpmnEventType;
-    }
-
-    public void setBpmnEventType(String bpmnElementType) {
-        this.bpmnEventType = bpmnElementType;
-    }
-
-    public long getParentProcessInstanceKey() {
-        return parentProcessInstanceKey;
-    }
-
-    public void setParentProcessInstanceKey(long parentProcessInstanceKey) {
-        this.parentProcessInstanceKey = parentProcessInstanceKey;
-    }
-
-    public long getParentElementInstanceKey() {
-        return parentElementInstanceKey;
-    }
-
-    public void setParentElementInstanceKey(long parentElementInstanceKey) {
-        this.parentElementInstanceKey = parentElementInstanceKey;
+    public void setStartInstructions(Object[] startInstructions) {
+        this.startInstructions = startInstructions;
     }
 
 }

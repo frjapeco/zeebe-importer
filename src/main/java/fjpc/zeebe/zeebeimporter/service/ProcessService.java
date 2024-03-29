@@ -5,6 +5,7 @@ import fjpc.zeebe.zeebeimporter.domain.Process;
 import fjpc.zeebe.zeebeimporter.mq.dto.ProcessMessage;
 import fjpc.zeebe.zeebeimporter.respository.ProcessRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -19,15 +20,23 @@ public class ProcessService {
         this.mapper = mapper;
     }
 
-    public Process save(String json) throws IOException {
+    public Mono<Process> save(String json) throws IOException {
         final ProcessMessage message = mapper.readValue(json, ProcessMessage.class);
         if (message == null || message.getProcessesMetadata() == null || message.getProcessesMetadata().length == 0) {
-            return null;
+            return Mono.empty();
         }
         Process process = new Process();
         process.setId(message.getProcessesMetadata()[0].getProcessDefinitionKey());
         process.setTag(message.getProcessesMetadata()[0].getBpmnProcessId());
         process.setVersionNumber(message.getProcessesMetadata()[0].getVersion());
+        assert process.getId() != null;
+        return repository.findById(process.getId())
+                .flatMap(p -> update(process))
+                .switchIfEmpty(repository.save(process));
+    }
+
+    private Mono<Process> update(Process process) {
+        process.setIsNew(false);
         return repository.save(process);
     }
 
