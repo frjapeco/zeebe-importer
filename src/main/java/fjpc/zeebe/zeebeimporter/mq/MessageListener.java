@@ -43,7 +43,7 @@ public class MessageListener {
 				break;
 			case UNKNOWN:
 			default:
-				log.warn("Unrecognized message: {}", json);
+				log.warn("Unrecognized message unable to process");
 		}
     }
 
