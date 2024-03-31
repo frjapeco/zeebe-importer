@@ -1,4 +1,4 @@
-package fjpc.zeebe.zeebeimporter.mq;
+package fjpc.zeebe.zeebeimporter.amqp;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;

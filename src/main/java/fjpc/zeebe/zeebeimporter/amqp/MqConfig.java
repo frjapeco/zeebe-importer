@@ -1,4 +1,4 @@
-package fjpc.zeebe.zeebeimporter.mq;
+package fjpc.zeebe.zeebeimporter.amqp;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

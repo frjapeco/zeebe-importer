@@ -1,4 +1,4 @@
-package fjpc.zeebe.zeebeimporter.mq.dto;
+package fjpc.zeebe.zeebeimporter.amqp.dto;
 
 public class ProcessMetadata {
 

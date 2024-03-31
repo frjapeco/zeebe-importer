@@ -3,7 +3,7 @@ package fjpc.zeebe.zeebeimporter.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fjpc.zeebe.zeebeimporter.domain.ProcessInstance;
-import fjpc.zeebe.zeebeimporter.mq.dto.ProcessInstanceMessage;
+import fjpc.zeebe.zeebeimporter.amqp.dto.ProcessInstanceMessage;
 import fjpc.zeebe.zeebeimporter.respository.ProcessInstanceRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

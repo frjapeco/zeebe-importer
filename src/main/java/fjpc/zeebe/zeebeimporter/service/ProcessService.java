@@ -2,7 +2,7 @@ package fjpc.zeebe.zeebeimporter.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fjpc.zeebe.zeebeimporter.domain.Process;
-import fjpc.zeebe.zeebeimporter.mq.dto.ProcessMessage;
+import fjpc.zeebe.zeebeimporter.amqp.dto.ProcessMessage;
 import fjpc.zeebe.zeebeimporter.respository.ProcessRepository;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
