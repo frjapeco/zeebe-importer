@@ -36,10 +36,10 @@ public class MessageListener {
 		log.info("Receiving message: {}", json);
         switch (getMessageType(json)) {
 			case PROCESS:
-				processService.save(json);
+				processService.save(json).subscribe();
 				break;
 			case PROCESS_INSTANCE:
-				processInstanceService.save(json);
+				processInstanceService.save(json).subscribe();
 				break;
 			case UNKNOWN:
 			default:
