@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.networknt.schema.JsonSchema;
+import fjpc.zeebe.zeebeimporter.domain.Process;
+import fjpc.zeebe.zeebeimporter.domain.ProcessInstance;
 import fjpc.zeebe.zeebeimporter.service.ProcessInstanceService;
 import fjpc.zeebe.zeebeimporter.service.ProcessService;
 import org.slf4j.Logger;
@@ -37,18 +39,18 @@ public class MessageListener {
 	@RabbitListener(queues = "zeebe")
 	public void receive(String json) throws IOException {
 		log.info("Receiving message: {}", json);
-		final String traceId = MDC.get("traceId");
+		final Map<String, String> ctx = MDC.getCopyOfContextMap();
         switch (getMessageType(json)) {
 			case PROCESS:
 				processService.save(json)
-						.doOnSuccess(p -> logCallback("Process saved successfully", "INFO", traceId))
-						.doOnError(e -> logCallback("Unable to save process caused by " + e.getMessage(), "ERROR", traceId))
+						.doOnSuccess(p -> handleSuccessProcessStored(p, ctx))
+						.doOnError(e -> handleError(e, ctx))
 						.subscribe();
 				break;
 			case PROCESS_INSTANCE:
 				processInstanceService.save(json)
-						.doOnSuccess(p -> logCallback("Process instance saved successfully", "INFO", traceId))
-						.doOnError(e -> logCallback("Unable to save process instance caused by " + e.getMessage(), "ERROR", traceId))
+						.doOnSuccess(i -> handleSuccessProcessInstanceStored(i, ctx))
+						.doOnError(e -> handleError(e, ctx))
 						.subscribe();
 				break;
 			case UNKNOWN:
@@ -68,16 +70,27 @@ public class MessageListener {
 		return UNKNOWN;
 	}
 
-	private void logCallback(String message, String level, String traceId) {
-		try (MDC.MDCCloseable mdc = MDC.putCloseable("traceId", traceId)){
-			switch (level) {
-				case "INFO":
-					log.info(message);
-					break;
-				case "ERROR":
-					log.error(message);
-					break;
+	private void handleSuccessProcessStored(Process p, Map<String, String> ctx) {
+		try (MDC.MDCCloseable mdc = MDC.putCloseable("traceId", ctx.get("traceId"))) {
+			if (p == null || p.getId() == null) {
+				return;
 			}
+			log.info("Process with id {} stored successfully", p.getId());
+		}
+	}
+
+	private void handleSuccessProcessInstanceStored(ProcessInstance i, Map<String, String> ctx) {
+		try (MDC.MDCCloseable mdc = MDC.putCloseable("traceId", ctx.get("traceId"))) {
+			if (i == null || i.getId() == null) {
+				return;
+			}
+			log.info("Process instance with id {} stored successfully", i.getId());
+		}
+	}
+
+	private void handleError(Throwable e, Map<String, String> ctx) {
+		try (MDC.MDCCloseable mdc = MDC.putCloseable("traceId", ctx.get("traceId"))) {
+			log.error(e.getMessage());
 		}
 	}
 

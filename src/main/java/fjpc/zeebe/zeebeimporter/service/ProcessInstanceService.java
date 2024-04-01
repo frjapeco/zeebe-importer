@@ -2,11 +2,15 @@ package fjpc.zeebe.zeebeimporter.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fjpc.zeebe.zeebeimporter.domain.Process;
 import fjpc.zeebe.zeebeimporter.domain.ProcessInstance;
 import fjpc.zeebe.zeebeimporter.amqp.dto.ProcessInstanceMessage;
 import fjpc.zeebe.zeebeimporter.respository.ProcessInstanceRepository;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 @Service
 public class ProcessInstanceService {
