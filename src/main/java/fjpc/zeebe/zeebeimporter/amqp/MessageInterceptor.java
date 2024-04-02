@@ -15,7 +15,7 @@ public class MessageInterceptor {
 
     @Before("execution(* fjpc.zeebe.zeebeimporter.amqp.MessageListener.receive(..))")
     public void beforeReceiveMessage() {
-        MDC.put("traceId", UUID.randomUUID().toString());
+        MDC.put("trace-id", UUID.randomUUID().toString());
     }
 
     @After("execution(* fjpc.zeebe.zeebeimporter.amqp.MessageListener.receive(..))")
